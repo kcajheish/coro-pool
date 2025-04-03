@@ -14,8 +14,8 @@ class CoroPool:
         async with self.semaphore:
             task = asyncio.create_task(coroutine)
             await task
-            await self.counter.increase(1)
             future.set_result(task.result())
+            await self.counter.increase(1)
             if await self.counter.is_eq(self.num_of_spawn):
                 self.end_event.set()
 
