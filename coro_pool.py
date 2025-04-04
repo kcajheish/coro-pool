@@ -16,7 +16,7 @@ class CoroPool:
             await task
             future.set_result(task.result())
             await self.counter.increase(1)
-            if await self.counter.is_eq(self.num_of_spawn):
+            if await self.counter.is_eq(self.num_of_spawn) and not self.end_event.is_set():
                 self.end_event.set()
 
     def spawn(self, coroutine: Coroutine) -> asyncio.Future:
